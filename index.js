@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import cors from "cors";
+
 
 import { registerValidation, loginValidation } from "./validations/auth.js";
 import { postCreateValidation } from "./validations/post.js";
@@ -29,7 +31,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.use(express.json());//Это необходимо чтобы приложение express могло читать json.
-
+app.use(cors());
 
 app.use('/uploads', express.static('uploads'));
 
