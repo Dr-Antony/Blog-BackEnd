@@ -11,13 +11,13 @@ import checkAuth from "./utils/checkAuth.js";
 import handleValidationErrors from "./utils/handleValidationErrors.js";
 
 import { register, login, authMe } from "./controllers/userController.js";
-import { createPost, getAll, getOne, removePost, updatePost } from "./controllers/PostController.js";
+import { createPost, getAll, getOne, removePost, updatePost,getLastTags } from "./controllers/PostController.js";
 
 
 
 
 
-mongoose.connect('mongodb+srv://admin:12345@cluster0.aebkplr.mongodb.net/blog?retryWrites=true&w=majority').then(() => { console.log('DB has been connected!') }).catch((err) => { console.log(err) })
+mongoose.connect('mongodb+srv://admin:12345@cluster0.aebkplr.mongodb.net/blog?').then(() => { console.log('DB has been connected!') }).catch((err) => { console.log(err) })
 
 const app = express();
 const storage = multer.diskStorage({
@@ -48,6 +48,9 @@ app.get('/posts/:id', getOne);
 app.delete('/posts/:id', checkAuth, postCreateValidation, removePost);
 app.patch('/posts/:id', checkAuth, postCreateValidation, updatePost);
 app.post('/posts', checkAuth, postCreateValidation, createPost);
+
+app.get('/tags', getLastTags);
+app.get('/posts/tags', getLastTags);
 
 
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
